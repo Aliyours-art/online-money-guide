@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register or Login - Online Money Guide</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    section {
+      max-width: 400px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin-top: 10px;
+    }
+    input {
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .switch {
+      text-align: center;
+      margin-top: 15px;
+    }
+    .switch a {
+      color: #3498db;
+      text-decoration: none;
+    }
+    .about-contact-link {
+      display: block;
+      margin-top: 25px;
+      text-align: center;
+    }
+    .about-contact-link a {
+      background: #e67e22;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Online Money Guide</h1>
+    <p>Account Access Page</p>
+  </header>
+
+  <section id="register">
+    <h2>Create Account</h2>
+    <form>
+      <label>First Name</label>
+      <input type="text" id="firstName" required />
+      <label>Last Name</label>
+      <input type="text" id="lastName" required />
+      <label>Username</label>
+      <input type="text" id="username" required />
+      <label>Date of Birth</label>
+      <input type="date" id="dob" required />
+      <label>Email</label>
+      <input type="email" id="email" required />
+      <label>Password</label>
+      <input type="password" id="password" required />
+      <label>Confirm Password</label>
+      <input type="password" id="confirmPassword" required />
+      <button type="button" onclick="registerUser()">Register</button>
+    </form>
+    <div class="switch">
+      <p>Already have an account? <a href="#login">Login here</a></p>
+    </div>
+  </section>
+
+  <section id="login">
+    <h2>Login</h2>
+    <form>
+      <label>Username or Email</label>
+      <input type="text" id="loginUser" required />
+      <label>Password</label>
+      <input type="password" id="loginPass" required />
+      <button type="button" onclick="loginUser()">Login</button>
+    </form>
+    <div class="switch">
+      <p>Don't have an account? <a href="#register">Register here</a></p>
+    </div>
+    <div class="about-contact-link">
+      <a href="about-contact.html">About / Contact Us</a>
+    </div>
+  </section>
+
+  <script>
+    function registerUser() {
+      const fields = ["firstName", "lastName", "username", "dob", "email", "password", "confirmPassword"];
+      for (let i = 0; i < fields.length; i++) {
+        const input = document.getElementById(fields[i]);
+        if (input.value.trim() === "") {
+          alert("Please fill in all fields.");
+          return;
+        }
+      }
+      const password = document.getElementById("password").value;
+      const confirm = document.getElementById("confirmPassword").value;
+      if (password !== confirm) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      const user = {
+        username: document.getElementById("username").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        password: password
+      };
+
+      localStorage.setItem("user", JSON.stringify(user));
+      alert("Account created successfully.");
+      window.location.href = "index.html";
+    }
+
+    function loginUser() {
+      const loginUser = document.getElementById("loginUser").value.trim();
+      const loginPass = document.getElementById("loginPass").value.trim();
+
+      if (loginUser === "" || loginPass === "") {
+        alert("Please enter both username/email and password.");
+        return;
+      }
+
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+
+      if (
+        storedUser &&
+        (storedUser.username === loginUser || storedUser.email === loginUser) &&
+        storedUser.password === loginPass
+      ) {
+        alert("Login successful!");
+        window.location.href = "index.html";
+      } else {
+        alert("Invalid credentials. Please try again.");
+      }
+    }
+  </script>
+</body>
+</html>
